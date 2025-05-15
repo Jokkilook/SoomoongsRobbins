@@ -37,3 +37,5 @@ void pre_order(Customer* cus, TreeNode* root);
 void in_order(Customer* cus, TreeNode* root);
 
 void post_order(Customer* cus, TreeNode* root);
+
+void bingsu_menu_init();

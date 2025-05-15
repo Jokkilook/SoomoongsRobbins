@@ -3,10 +3,11 @@
 #define ROW 2
 #define COL 3
 #define MAX_CUPSIZE 5
-#define MAX_CUSTOMER_SIZE 5
+#define MAX_CUSTOMER_SIZE 2
 #define MAX_DELIVERY_COUNT 10
 #define MAX_COOK_BINGSU 3
 #define NUM_OF_INGREDIENT 7
+#define MAX_ELEMENT 200
 
 typedef struct stack Stack;
 typedef struct customer Customer;
@@ -66,3 +67,8 @@ typedef struct TreeNode{
 	char name[100];
 	struct TreeNode* left, * right;
 }TreeNode;
+
+typedef struct Heap{
+	int heap[MAX_ELEMENT];
+	int heap_size;
+}Heap;

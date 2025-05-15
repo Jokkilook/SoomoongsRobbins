@@ -1,5 +1,6 @@
 ﻿#include "Stack.h"
 #include "stdlib.h"
+#include "stdio.h"
 
 
 void init_cup(Stack* icecream_cup) {
@@ -18,6 +19,7 @@ void push(int choice, Stack* icecream_cup) {
 		icecream_cup->icecream_number = (int*)realloc(icecream_cup->icecream_number, icecream_cup->capacity * sizeof(int));
 	}
 	icecream_cup->icecream_number[++icecream_cup->top] = choice;
+	printf("%d 넣음 / \n", icecream_cup->icecream_number[icecream_cup->top]);
 }
 
 int is_empty(Stack* icecream_cup) {

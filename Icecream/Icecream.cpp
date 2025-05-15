@@ -149,7 +149,7 @@ int delivery_order(Customer* cus) {
 	int i, ice_num;
 	int penalty = 0;
 
-	for (i = cus->cup_size; i > 0;  i--) {
+	for (i = cus->cup_size; i--; i > 0) {
 		ice_num = pop(cus->icecream_cup);
 		if (ice_num == -1) {
 			printf("고객 : 왜 주문한 아이스크림을 다 안주는 거야!!\n");
@@ -181,8 +181,8 @@ void delivery_order(Owner* ice_owner, Rider* rider) {
 	while (rider->count > 0) {
 		cus = delete_first(&(rider->tail));
 
-		printf("=======================================================\n");
-		printf("[VIP %d ONLYHOME %d]주문번호 %d 고객님 빙수와 아이스크림 배달왔습니다.\n", cus->vip, cus->onlyhome, cus->order_num);
+		printf("\n====================================================================================================\n");
+		printf("[VIP %d ONLYHOME %d]주문번호 %d 고객님 빙수와 아이스크림 배달왔습니다.\n\n", cus->vip, cus->onlyhome, cus->order_num);
 
 		//빙수 평가
 		printf("빙수는 잘 만들었는지 볼까\n");
@@ -197,8 +197,8 @@ void delivery_order(Owner* ice_owner, Rider* rider) {
 		}
 
 		//아이스크림 평가
-		printf("그 다음 아이스크림 맛볼까?\n");
-		for (i = cus->cup_size; i > 0;  i--) {
+		printf("\n그 다음 아이스크림 맛볼까?\n");
+		for (i = cus->cup_size - 1; i >= 0;  i--) {
 			ice_num = pop(cus->icecream_cup);
 			if (ice_num == -1) {
 				printf("고객 : 왜 주문한 아이스크림을 다 안주는 거야!!\n");
@@ -206,19 +206,21 @@ void delivery_order(Owner* ice_owner, Rider* rider) {
 			}
 			else {
 				if (ice_num == cus->order[i]) {
-					printf("고객 : 음~ 내가 주문한 순서대로 쌓아줬네!\n");
+					printf("고객 : 음~ 내가 주문한 순서대로 쌓아줬네\n");
 				}
 				else {
-					printf("고객 : 내가 주문한 아이스크림이 아니잖아!!\n");
+					printf("고객 : 내가 주문한 아이스크림이 아니잖아!!!\n");
 					penalty++;
 				}
 			}
-
-			if ((cus->icecream_cup->top) > -1) {
-				penalty += ((cus->icecream_cup->top) + 1);
-				printf("고객 : 왜 내가 시킨 것보다 더 주는거야? 돼지 되라는 거야???\n");
-			}
 		}
+
+		if ((cus->icecream_cup->top) > -1) {
+			penalty += ((cus->icecream_cup->top) + 1);
+			printf("고객 : 왜 내가 시킨 것보다 더 주는거야? 돼지 되라는 거야???\n");
+		}
+
+		printf("\n");
 
 		cal_sales(ice_owner, cus->cup_size, penalty);
 		rider->count--;
@@ -237,7 +239,7 @@ int prepare_order(Owner *ice_owner) {
 	}
 
 	//빙수 준비
-	printf("---------------------------------------------------------------------------------\n");
+	printf("----------------------------------------------------------------------------------------------------\n");
 	printf("나 : 빙수부터 만들어야겠다. %s으로 빙수를 만들어 달라고 하셨네...\n", get_cook_way(cus->bingsu_menu));
 	
 	printf("나 : 빙수 재료는 우유, 딸기, 초코, 딸기청, 휘핑, 초코칩, 견과류가 있으니깐\n");
@@ -267,7 +269,7 @@ int prepare_order(Owner *ice_owner) {
 		push(choice, icecream_cup);
 	}
 
-	printf("---------------------------------------------------------------------------------\n");
+	printf("----------------------------------------------------------------------------------------------------\n");
 
 	//tail이 배달 테이블 리스트(연결 리스트임)
 	//insert_last가 put_rider_table
@@ -299,7 +301,7 @@ int get_order(Owner *ice_owner) {
 	Sleep(200);
 	srand(time(NULL));
 
-	printf("======================================================\n");
+	printf("====================================================================================================\n");
 	printf("사장: 고객님 주문받겠습니다.\n");
 	cus->cup_size = (rand() % MAX_CUPSIZE) + 1;
 	cus->vip = (rand() % 2);
@@ -343,7 +345,7 @@ int get_order(Owner *ice_owner) {
 	if (cus->bingsu_menu == 2)
 		post_order(cus, bingsu_num);
 
-	printf("======================================================\n");
+	printf("\n====================================================================================================\n");
 ;
 	return 0;
 }
@@ -414,7 +416,7 @@ const char* get_cook_way(int cook_number) {
 void pre_order(Customer* cus, TreeNode* root) {
 	if (root) {
 		strcpy(cus->order_bingsu[cus->ingre_count], root->name);
-		printf("%s", cus->order_bingsu[cus->ingre_count]);
+		printf("%s -> ", cus->order_bingsu[cus->ingre_count]);
 		cus->ingre_count++;
 		pre_order(cus, root->left);
 		pre_order(cus, root->right);
@@ -425,7 +427,7 @@ void in_order(Customer* cus, TreeNode* root) {
 	if (root) {
 		in_order(cus, root->left);
 		strcpy(cus->order_bingsu[cus->ingre_count], root->name);
-		printf("%s", cus->order_bingsu[cus->ingre_count]);
+		printf("%s -> ", cus->order_bingsu[cus->ingre_count]);
 		cus->ingre_count++;
 		in_order(cus, root->right);
 	}
@@ -436,7 +438,44 @@ void post_order(Customer* cus, TreeNode* root) {
 		post_order(cus, root->left);
 		post_order(cus, root->right);
 		strcpy(cus->order_bingsu[cus->ingre_count], root->name);
-		printf("%s", cus->order_bingsu[cus->ingre_count]);
+		printf("%s -> ", cus->order_bingsu[cus->ingre_count]);
 		cus->ingre_count++;
 	}
+}
+
+void bingsu_menu_init() {
+
+	TreeNode* ingre1, * ingre2, * ingre3, * ingre4, * ingre5, * ingre6, * ingre7;
+
+	ingre1 = (TreeNode*)malloc(sizeof(TreeNode));
+	ingre2 = (TreeNode*)malloc(sizeof(TreeNode));
+	ingre3 = (TreeNode*)malloc(sizeof(TreeNode));
+	ingre4 = (TreeNode*)malloc(sizeof(TreeNode));
+	ingre5 = (TreeNode*)malloc(sizeof(TreeNode));
+	ingre6 = (TreeNode*)malloc(sizeof(TreeNode));
+	ingre7 = (TreeNode*)malloc(sizeof(TreeNode));
+
+	strcpy(ingre1->name, "딸기청");
+	ingre1->left = NULL;
+	ingre1->right = NULL;
+	strcpy(ingre2->name, "휘핑");
+	ingre2->left = NULL;
+	ingre2->right = NULL;
+	strcpy(ingre3->name, "초코칩");
+	ingre3->left = NULL;
+	ingre3->right = NULL;
+	strcpy(ingre4->name, "견과류");
+	ingre4->left = NULL;
+	ingre4->right = NULL;
+	strcpy(ingre5->name, "딸기");
+	ingre5->left = ingre1;
+	ingre5->right = ingre2;
+	strcpy(ingre6->name, "초코");
+	ingre6->left = ingre3;
+	ingre6->right = ingre4;
+	strcpy(ingre7->name, "우유");
+	ingre7->left = ingre5;
+	ingre7->right = ingre6;
+
+	bingsu_num = ingre7;
 }
