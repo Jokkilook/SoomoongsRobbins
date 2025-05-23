@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Hashing.cpp" />
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="Icecream.cpp" />
     <ClCompile Include="List.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="Stack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hashing.h" />
     <ClInclude Include="Heap.h" />
     <ClInclude Include="Icecream.h" />
     <ClInclude Include="List.h" />

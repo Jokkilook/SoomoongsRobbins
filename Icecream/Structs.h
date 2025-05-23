@@ -8,6 +8,7 @@
 #define MAX_COOK_BINGSU 3
 #define NUM_OF_INGREDIENT 7
 #define MAX_ELEMENT 200
+#define TABLE_SIZE 7
 
 typedef struct stack Stack;
 typedef struct customer Customer;
@@ -28,6 +29,7 @@ typedef struct customer {
 	int order[MAX_CUPSIZE];
 	int vip;
 	int onlyhome;
+	char name[20];
 	int ingre_count;
 	int bingsu_menu;
 	char order_bingsu[NUM_OF_INGREDIENT][100];
@@ -72,3 +74,18 @@ typedef struct Heap{
 	int heap[MAX_ELEMENT];
 	int heap_size;
 }Heap;
+
+typedef struct member {
+	char name[20];
+	int order_count;
+}Member;
+
+typedef struct Member_List {
+	Member item;
+	struct Member_List* link;
+}Member_List;
+
+typedef struct MemberListNode {
+	Customer* cus;
+	struct MemberListNode* link;
+}MemberListNode;

@@ -9,6 +9,7 @@
 #include "Queue.h"
 #include "Icecream.h"
 #include "List.h"
+#include "Hashing.h"
 
 Icecream*** icecream_tb;
 
@@ -17,6 +18,10 @@ int reverse;
 int order_count = 0;
 
 TreeNode* bingsu_num;
+
+const char* char_name[TABLE_SIZE] = { "soomoon", "charlie", "summer", "sean","smu","hacker","jenny" };
+
+struct Member_List* hash_table[TABLE_SIZE];
 
 //
 Icecream* create_icecream() {
@@ -301,6 +306,23 @@ int get_order(Owner *ice_owner) {
 	Sleep(200);
 	srand(time(NULL));
 
+	//해싱 이용한 회원 시스템
+	int random = rand() % TABLE_SIZE;
+	strncpy(cus->name, char_name[random], strlen(char_name[random]));
+	Member member = { NULL, 1 };
+	strncpy(member.name, cus->name, strlen(cus->name));
+
+	int order_count = hash_chain_search(member, hash_table);
+
+	if (order_count == -1) {
+		hash_chain_add(member, hash_table);
+		order_count = 1;
+	}
+	if (order_count > 3)
+		cus->vip = 1;
+	else
+		cus->vip = 0;
+
 	printf("====================================================================================================\n");
 	printf("사장: 고객님 주문받겠습니다.\n");
 	cus->cup_size = (rand() % MAX_CUPSIZE) + 1;
@@ -478,4 +500,49 @@ void bingsu_menu_init() {
 	ingre7->right = ingre6;
 
 	bingsu_num = ingre7;
+}
+
+void init_hash_table(Member_List* hash_table[])
+{
+	int i;
+	for (i = 0; i < TABLE_SIZE; i++)
+		hash_table[i] = NULL;
+}
+
+void hash_chain_add(Member item, Member_List* hash_table[])
+{
+	int hash_value = hash_function(item.name);
+	Member_List* ptr;
+	Member_List* before = NULL, * curr = hash_table[hash_value];
+
+	for (; curr; before = curr, curr = curr->link) {
+		if (!strcmp(curr->item.name, item.name)) {
+			printf("이미 저장되어있는 회원입니다.\n");
+			return;
+		}
+	}
+	ptr = (Member_List*)malloc(sizeof(Member_List));
+	ptr->item = item;
+	ptr->link = NULL;
+
+	if (before)
+		before->link = ptr;
+	else
+		hash_table[hash_value] = ptr;
+}
+
+int hash_chain_search(Member item, Member_List* hash_table[])
+{
+	Member_List* node;
+
+	int hash_value = hash_function(item.name);
+
+	for (node = hash_table[hash_value]; node; node = node->link) {
+		if (!strcmp(node->item.name, item.name)) {
+			node->item.order_count++;
+			printf("%s님의 스탬프 수는 %d개 입니다.", node->item.name, node->item.order_count);
+		}
+	}
+	printf("%s 님은 등록된 회원이 아닙니다. 회원가입을 진행해 주세요.\n", item.name);
+	return -1;
 }

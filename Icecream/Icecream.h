@@ -2,6 +2,8 @@
 
 #include "Structs.h"
 
+extern struct Member_List* hash_table[TABLE_SIZE];
+
 Icecream* create_icecream();
 
 Customer* create_customer();
@@ -39,3 +41,9 @@ void in_order(Customer* cus, TreeNode* root);
 void post_order(Customer* cus, TreeNode* root);
 
 void bingsu_menu_init();
+
+void init_hash_table(Member_List* hash_table[]);
+
+void hash_chain_add(Member item, Member_List* hash_table[]);
+
+int hash_chain_search(Member item, Member_List* hash_table[]);

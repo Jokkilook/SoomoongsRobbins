@@ -9,39 +9,6 @@
 
 int main()
 {
-	int e1 = 10, e2 = 5, e3 = 30;
-	int e4, e5, e6;
-	Heap* heap;
-
-	heap = createHeap();
-	init(heap);
-
-	insert_max_heap(heap, e1);
-	insert_max_heap(heap, e2);
-	insert_max_heap(heap, e3);
-
-	e4 = delete_max_heap(heap);
-	printf("< %d >\n", e4);
-	e5 = delete_max_heap(heap);
-	printf("< %d >\n", e5);
-	e6 = delete_max_heap(heap);
-	printf("< %d >\n", e6);
-
-	insert_min_heap(heap, e1);
-	insert_min_heap(heap, e2);
-	insert_min_heap(heap, e3);
-
-	e4 = delete_min_heap(heap);
-	printf("< %d >\n", e4);
-	e5 = delete_min_heap(heap);
-	printf("< %d >\n", e5);
-	e6 = delete_min_heap(heap);
-	printf("< %d >\n", e6);
-
-	free(heap);
-
-	if (1) return 0;
-
 	bool isPlaying = true;
 
 	Owner ice_owner;
@@ -54,6 +21,8 @@ int main()
 	rider_init(&rider);
 
 	bingsu_menu_init();
+
+	init_hash_table(hash_table);
 
 	while (isPlaying) {
 		char ans;
@@ -125,3 +94,36 @@ int main()
 
 	return 0;
 }
+
+//int e1 = 10, e2 = 5, e3 = 30;
+//int e4, e5, e6;
+//Heap* heap;
+
+//heap = createHeap();
+//init(heap);
+
+//insert_max_heap(heap, e1);
+//insert_max_heap(heap, e2);
+//insert_max_heap(heap, e3);
+
+//e4 = delete_max_heap(heap);
+//printf("< %d >\n", e4);
+//e5 = delete_max_heap(heap);
+//printf("< %d >\n", e5);
+//e6 = delete_max_heap(heap);
+//printf("< %d >\n", e6);
+
+//insert_min_heap(heap, e1);
+//insert_min_heap(heap, e2);
+//insert_min_heap(heap, e3);
+
+//e4 = delete_min_heap(heap);
+//printf("< %d >\n", e4);
+//e5 = delete_min_heap(heap);
+//printf("< %d >\n", e5);
+//e6 = delete_min_heap(heap);
+//printf("< %d >\n", e6);
+
+//free(heap);
+
+//if (1) return 0;
